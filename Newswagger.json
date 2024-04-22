@@ -1,0 +1,137 @@
+{
+    "openapi": "3.0.0",
+    "info":{
+        "title": "Social Networking Platform Api",
+        "description": "API for social Networking application",
+        "version": "1.0.0"
+    },
+    "servers":[
+        {
+            "url":"http://localhost:5000"
+        }
+    ],
+    "components":{
+        "securitySchemes":{
+            "JWT":{
+                "type":"apiKey",
+                "in":"header",
+                "name":"Authorization"
+            }
+        }
+    },
+    "paths":{
+        "/api/users/signin":{
+            "post":{
+                "tags":["users"],
+                "summary":"Login",
+                "description":"User Login to get token",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "email":{
+                                        "type":"string"
+                                    },
+                                    "password":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    },
+                    "400":{
+                        "description":"Incorrect Credentials"
+                    }
+                }
+            }
+
+            
+        },
+        "/api/posts":{
+            "get":{
+                "tags":["Posts"],
+                "summary":"Get posts",
+                "description":"User will get all Posts",
+                "security":[{"JWT":{}}],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    },
+                    "401":{
+                        "description":"Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/comments/{id}":{
+            "get":{
+                "tags":["Comments"],
+                "summary":"Get Comments by POSTID",
+                "description":"Retrieve a specific comment by its unique identifier.",
+                "security":[{"JWT":{}}],
+                "parameters":[
+                {
+                    "name":"id",
+                    "in":"path",
+                    "description":"ID of the post to retrieve comment.",
+                    "required":true,
+                    "schema":{
+                        "type":"string"
+                    }
+                }
+            ],
+            "responses":{
+                "200":{
+                    "description":"Success: Retrieved the specific comment"
+                },
+                "401":{
+                    "description":"Unauthorized: Access token is missing or invalid"
+                },
+                "404":{
+                    "description":"Not Found: Comment with the provided Id not found"
+                }
+            }
+
+            }
+        },
+        "/api/likes/{id}":{
+            "get":{
+                "tags":["Likes"],
+                "summary":"Get Likes by POSTID",
+                "description":"Retrieve a specific Likes by its unique identifier.",
+                "security":[{"JWT":{}}],
+                "parameters":[
+                {
+                    "name":"id",
+                    "in":"path",
+                    "description":"ID of the post to retrieve Likes.",
+                    "required":true,
+                    "schema":{
+                        "type":"string"
+                    }
+                }
+            ],
+            "responses":{
+                "200":{
+                    "description":"Success: Retrieved the specific Likes"
+                },
+                "401":{
+                    "description":"Unauthorized: Access token is missing or invalid"
+                },
+                "404":{
+                    "description":"Not Found: Likes with the provided Id not found"
+                }
+            }
+
+            }
+        
+        }
+    }
+}
